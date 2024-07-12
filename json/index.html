@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Random Image API</title>
+    <title>Random Image JSON API</title>
 </head>
 <body>
+    <pre id="jsonOutput"></pre>
     <script>
         // 函数用于获取随机图片链接并返回Promise
         function getRandomImageUrl() {
-            return fetch('https://proxy.092333.xyz/https://raw.githubusercontent.com/3371455651/Random-Image-API/main/img.txt') // 这里需要是可访问的URL，例如GitHub的Raw URL
+            return fetch('https://proxy.092333.xyz/https://raw.githubusercontent.com/3371455651/Random-Image-API/main/img.txt') // 使用GitHub Raw URL或其他公开访问的URL
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -18,28 +19,23 @@
                 .then(text => {
                     const images = text.trim().split('\n').filter(Boolean); // 分割文本并过滤掉空行
                     const randomIndex = Math.floor(Math.random() * images.length);
-                    return {
-                        success: true,
-                        imageUrl: images[randomIndex]
-                    };
+                    const imageUrl = images[randomIndex];
+                    return { success: true, imageUrl: imageUrl };
                 })
                 .catch(error => {
                     console.error('Error fetching img.txt:', error);
-                    return {
-                        success: false,
-                        message: 'Unable to fetch images.'
-                    };
+                    return { success: false, message: 'Unable to fetch images.' };
                 });
         }
 
         // 当页面加载完成时，调用函数并处理Promise
         window.onload = () => {
             getRandomImageUrl().then(data => {
-                // 这里我们只是输出结果到控制台，实际使用时可以进行其他操作
-                console.log(data);
-                // 如果需要，可以将结果设置到页面元素或通过其他方式传递
+                // 将数据转换为JSON字符串并显示在页面上
+                document.getElementById('jsonOutput').textContent = JSON.stringify(data, null, 2);
             }).catch(error => {
-                console.error('Error getting random image URL:', error);
+                // 错误处理
+                document.getElementById('jsonOutput').textContent = JSON.stringify({ success: false, message: error.message }, null, 2);
             });
         };
     </script>
