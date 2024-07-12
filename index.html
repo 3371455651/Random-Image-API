@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Image Redirector</title>
+</head>
+<body>
+    <script>
+        // 读取img.txt并重定向到随机图片
+        fetch('img.txt')
+            .then(response => response.text()) // 读取文件内容
+            .then(text => {
+                const images = text.split('\n'); // 按行分割文本文件内容
+                const imagesWithoutEmpty = images.filter(image => image.trim() !== ''); // 过滤掉空行和空白字符串
+                const randomImageSrc = imagesWithoutEmpty[Math.floor(Math.random() * imagesWithoutEmpty.length)];
+                window.location.href = randomImageSrc; // 重定向到随机图片
+            })
+            .catch(error => {
+                console.error('Error fetching img.txt:', error);
+                // 错误处理，例如跳转到默认图片或错误页面
+                window.location.href = 'error-image.jpg'; // 请替换为实际的默认图片或错误页面地址
+            });
+    </script>
+</body>
+</html>
