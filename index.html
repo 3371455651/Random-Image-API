@@ -7,7 +7,7 @@
 <body>
     <script>
         // 读取img.txt并重定向到随机图片
-        fetch('img.txt')
+        fetch('https://raw.githubusercontent.com/3371455651/Random-Image-API/main/img.txt')
             .then(response => response.text()) // 读取文件内容
             .then(text => {
                 const images = text.split('\n'); // 按行分割文本文件内容
