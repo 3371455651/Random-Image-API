@@ -8,7 +8,7 @@
     <script>
         // 函数用于获取随机图片链接并返回Promise
         function getRandomImageUrl() {
-            return fetch('img.txt') // 这里需要是可访问的URL，例如GitHub的Raw URL
+            return fetch('https://proxy.092333.xyz/https://raw.githubusercontent.com/3371455651/Random-Image-API/main/img.txt') // 这里需要是可访问的URL，例如GitHub的Raw URL
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
