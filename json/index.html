@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Image API</title>
+</head>
+<body>
+    <script>
+        // 函数用于获取随机图片链接并返回JSON
+        function getRandomImageUrl() {
+            fetch('https://proxy.092333.xyz/https://raw.githubusercontent.com/3371455651/Random-Image-API/main/img.txt') // 这里需要是可访问的URL，例如GitHub的Raw URL
+                .then(response => response.text())
+                .then(text => {
+                    const images = text.trim().split('\n').filter(Boolean); // 分割文本并过滤掉空行
+                    const randomIndex = Math.floor(Math.random() * images.length);
+                    const randomImageUrl = images[randomIndex];
+                    return {
+                        success: true,
+                        imageUrl: randomImageUrl
+                    };
+                })
+                .catch(error => {
+                    console.error('Error fetching img.txt:', error);
+                    return {
+                        success: false,
+                        message: 'Unable to fetch images.'
+                    };
+                });
+        }
+
+        // 当页面加载完成时，调用函数并返回JSON
+        window.onload = () => {
+            getRandomImageUrl().then(data => {
+                // 设置响应头和内容类型为JSON
+                headers = new Headers();
+                headers.append('Content-Type', 'application/json');
+                
+                // 通过XMLHttpRequest发送JSON响应
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'about:blank', true);
+                xhr.setRequestHeader('X-Custom-Response', JSON.stringify(data));
+                xhr.send();
+                
+                // 立即重定向到一个空白页面或原始请求的引用页面
+                window.location.href = 'about:blank';
+            });
+        };
+    </script>
+</body>
+</html>
